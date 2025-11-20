@@ -1,40 +1,58 @@
 import React from 'react';
 import { Token, TokenStatus } from '../types';
 import TokenCard from './TokenCard';
-import { Settings2, Zap } from 'lucide-react';
+import { Settings2, Zap, Box } from 'lucide-react';
 import { Skeleton } from './ui/Primitives';
 
 interface ColumnProps {
   title: TokenStatus;
   tokens: Token[];
   loading: boolean;
-  icon?: React.ReactNode;
+  onOpenFilter?: () => void;
 }
 
-const Column: React.FC<ColumnProps> = ({ title, tokens, loading, icon }) => {
+const Column: React.FC<ColumnProps> = ({ title, tokens, loading, onOpenFilter }) => {
   return (
     <div className="flex flex-col h-full border-r border-border last:border-r-0 bg-[#050505]">
-      {/* Column Header */}
-      <div className="sticky top-0 z-10 bg-[#050505]/95 backdrop-blur-sm border-b border-border p-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-           {icon}
-           <h2 className="text-sm font-bold text-white tracking-wide uppercase">{title}</h2>
-        </div>
+      {/* Column Header - Updated to match screenshot */}
+      <div className="sticky top-0 z-10 bg-[#050505] border-b border-border h-[52px] flex items-center justify-between px-3 group shrink-0">
+        <div className="font-bold text-white text-[15px]">{title}</div>
         
         <div className="flex items-center gap-2">
-           <div className="relative">
-             <input 
-               type="text" 
-               placeholder="Filter..." 
-               className="bg-surface border border-border rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-primary w-32 placeholder:text-zinc-700"
-             />
-           </div>
-           <div className="flex items-center gap-1 bg-surface border border-border rounded p-0.5">
-              <button className="p-1 hover:bg-white/10 rounded"><Zap size={12} className="text-yellow-500" /></button>
-              <div className="w-[1px] h-3 bg-border"></div>
-              <span className="text-[10px] text-textMuted px-1">P1</span>
-           </div>
-           <Settings2 size={14} className="text-textMuted cursor-pointer hover:text-white" />
+            {/* Search Input Pill - Visible on Large Screens */}
+            <div className="relative hidden lg:block">
+                <input 
+                    type="text" 
+                    placeholder="Search by ticker or name" 
+                    className="bg-[#111] border border-[#27272a] rounded-full pl-3 pr-2 py-1 text-[11px] text-white focus:outline-none focus:border-zinc-600 w-32 xl:w-36 placeholder:text-zinc-600 transition-all focus:w-40"
+                />
+            </div>
+            
+            {/* Flash/Lightning Widget */}
+            <div className="flex items-center gap-1.5 bg-[#111] border border-[#27272a] rounded px-2 py-1 hover:border-zinc-600 transition-colors cursor-pointer">
+                <Zap size={10} className="text-textMuted fill-current" />
+                <span className="text-[11px] font-medium text-textMuted">0</span>
+            </div>
+
+            {/* Yellow Cube Widget */}
+            <button className="p-1.5 hover:bg-[#111] rounded text-[#F3BA2F]">
+                <Box size={14} className="fill-current stroke-[1.5px]" />
+            </button>
+
+            {/* P Levels Selector */}
+            <div className="flex items-center gap-1 text-[11px] font-medium px-1 select-none">
+                <span className="text-blue-500 cursor-pointer hover:text-blue-400">P1</span>
+                <span className="text-zinc-600 cursor-pointer hover:text-zinc-400 ml-1">P2</span>
+                <span className="text-zinc-600 cursor-pointer hover:text-zinc-400 ml-1">P3</span>
+            </div>
+
+            {/* Filter/Settings */}
+            <button 
+                onClick={onOpenFilter}
+                className="p-1.5 hover:bg-[#111] rounded text-textMuted hover:text-white"
+            >
+                <Settings2 size={14} />
+            </button>
         </div>
       </div>
 
@@ -58,7 +76,7 @@ const Column: React.FC<ColumnProps> = ({ title, tokens, loading, icon }) => {
               <TokenCard key={token.id} token={token} />
             ))}
             {tokens.length === 0 && (
-                <div className="p-8 text-center text-textMuted text-xs">No tokens found</div>
+                <div className="p-8 text-center text-textMuted text-xs">No tokens found matching filters</div>
             )}
           </div>
         )}

@@ -18,17 +18,26 @@ const NAMES = [
 
 const SYMBOLS = ["MMT", "KOBAN", "MOLLY", "SHRUB", "MINN", "MOCHI", "ZKA", "CC", "CZT", "DRG", "PERC"];
 
+export const PROTOCOLS = ['Four.meme', 'X Mode', 'Pump.fun'];
+export const QUOTE_TOKENS = ['WBNB', 'BNB', 'USDT', 'USD1', 'CAKE', 'ASTER', 'LISUSD', 'USDC'];
+
 export const generateMockTokens = (count: number, status: TokenStatus): Token[] => {
   return Array.from({ length: count }).map((_, i) => {
     const nameIndex = Math.floor(Math.random() * NAMES.length);
-    const isGreen = Math.random() > 0.4;
     
+    // Generate random age strings: 30s, 5m, 1h
+    const timeUnit = Math.random() > 0.8 ? 's' : Math.random() > 0.2 ? 'm' : 'h';
+    const timeVal = timeUnit === 's' ? Math.floor(Math.random() * 59) + 1 
+                  : timeUnit === 'm' ? Math.floor(Math.random() * 59) + 1 
+                  : Math.floor(Math.random() * 23) + 1;
+    const createdTime = `${timeVal}${timeUnit}`;
+
     return {
       id: `${status}-${i}-${Math.random()}`,
       name: NAMES[nameIndex],
       symbol: SYMBOLS[nameIndex],
       image: IMAGES[i % IMAGES.length],
-      createdTime: `${Math.floor(Math.random() * 59) + 1}m`,
+      createdTime: createdTime,
       marketCap: Math.random() * 100000 + 5000,
       volume: Math.random() * 50000,
       transactions: Math.floor(Math.random() * 2000),
@@ -39,13 +48,17 @@ export const generateMockTokens = (count: number, status: TokenStatus): Token[] 
       priceChange1h: (Math.random() * 50 - 10) * (Math.random() > 0.5 ? 1 : -1),
       status: status,
       address: `0x${Math.random().toString(16).slice(2, 6)}...${Math.random().toString(16).slice(2, 6)}`,
-      badges: Math.random() > 0.5 ? ['DS', 'Paid'] : ['DS'],
+      badges: Math.random() > 0.7 ? ['DS', 'Paid'] : ['DS'],
       devActions: {
         burnt: Math.random() > 0.5,
         locked: Math.random() > 0.5,
         renounced: Math.random() > 0.5,
       },
-      chain: 'BNB'
+      chain: 'BNB',
+      protocol: PROTOCOLS[Math.floor(Math.random() * PROTOCOLS.length)],
+      quoteToken: QUOTE_TOKENS[Math.floor(Math.random() * QUOTE_TOKENS.length)],
+      devHolding: Math.floor(Math.random() * 20),
+      snipers: Math.floor(Math.random() * 10),
     };
   });
 };
