@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Axiom Pulse</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              background: '#050505', // Deep black/gray
+              surface: '#111111',    // Card background
+              surfaceHighlight: '#1A1A1A',
+              border: '#27272a',
+              primary: '#3b82f6',    // Blue accent
+              success: '#10b981',    // Green
+              danger: '#ef4444',     // Red
+              textMain: '#ffffff',
+              textMuted: '#a1a1aa',
+            },
+            animation: {
+              'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'flash-green': 'flashGreen 1s ease-out',
+              'flash-red': 'flashRed 1s ease-out',
+            },
+            keyframes: {
+              flashGreen: {
+                '0%': { color: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)' },
+                '100%': { color: 'inherit', backgroundColor: 'transparent' },
+              },
+              flashRed: {
+                '0%': { color: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)' },
+                '100%': { color: 'inherit', backgroundColor: 'transparent' },
+              }
+            }
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #09090b;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #3f3f46;
+      }
+      body {
+        background-color: #050505;
+        color: #e4e4e7;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
